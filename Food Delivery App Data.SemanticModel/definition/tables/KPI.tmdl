@@ -1,0 +1,40 @@
+table KPI
+	lineageTag: f9ca7780-b002-4444-88ff-454e0942b892
+
+	measure 'Selected KPI Value' =
+			
+			SWITCH(
+			    SELECTEDVALUE('KPI'[KPI Name]),
+			    "Revenue", [Total Revenue],
+			    "Orders", [Total Orders],
+			    "Avg Order Value", [Avg Order Value],
+			    "Avg Delivery Time", [Avg Delivery Time]
+			)
+		lineageTag: cb5456e2-b84a-48bc-9656-3e847b85d51c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'KPI Name'
+		lineageTag: 8d7eab92-ddae-46c7-b185-a7d4b2388dc6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [KPI Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KPI = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "KPI Name", STRING,
+				    {
+				        {"Revenue"},
+				        {"Orders"},
+				        {"Avg Order Value"},
+				        {"Avg Delivery Time"}
+				    }
+				)
+
+	annotation PBI_Id = 9d87a18efc2e470c905dfd6e8f3c8a1a
+

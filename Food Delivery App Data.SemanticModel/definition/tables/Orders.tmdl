@@ -1,0 +1,249 @@
+table Orders
+	lineageTag: 44b142de-d4f6-4020-a8ea-71c97abb34ba
+
+	measure 'Total Orders' = COUNT(Orders[OrderID])
+		formatString: 0
+		displayFolder: KPI MEASURES
+		lineageTag: 1e8faf35-794e-465e-b5fc-90491d142857
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Total Revenue' = SUM(Orders[OrderValue])
+		formatString: 0
+		displayFolder: KPI MEASURES
+		lineageTag: 4ee648ea-cb4f-4533-8860-c220863a1090
+
+	measure 'Avg Order Value' = DIVIDE([Total Revenue], [Total Orders])
+		displayFolder: KPI MEASURES
+		lineageTag: 4b8e4b35-a078-4d14-aecb-8e4055e8e0fe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Delivery Time' = AVERAGE(Orders[DeliveryTimeMins])
+		formatString: 0.00
+		displayFolder: KPI MEASURES
+		lineageTag: 22ae41cd-3097-43fa-ac12-150c93946905
+
+	measure 'Total Customers' = DISTINCTCOUNT(Orders[CustomerID])
+		formatString: 0
+		displayFolder: KPI MEASURES
+		lineageTag: ed5bfaac-e35c-45d5-aac1-f2388e98fe1f
+
+	measure 'Total Restaurants' = DISTINCTCOUNT(Restaurants[RestaurantID])
+		formatString: 0
+		displayFolder: KPI MEASURES
+		lineageTag: 1ef644f6-1ba9-4b67-8ff7-c81d0d0c4cda
+
+	measure 'Delivered Orders' = ```
+			
+			CALCULATE([Total Orders], Orders[OrderStatus] = "Delivered")
+			
+			```
+		formatString: 0
+		displayFolder: Status measures
+		lineageTag: a6f262f5-2e45-411e-a95e-97c71006dbdc
+
+	measure 'Cancelled Orders' =
+			
+			CALCULATE([Total Orders], Orders[OrderStatus] = "Cancelled")
+		formatString: 0
+		displayFolder: Status measures
+		lineageTag: a93e2675-2da7-420f-a19a-89578f54527c
+
+	measure 'Cancellation %' =
+			
+			DIVIDE([Cancelled Orders], [Total Orders])
+		displayFolder: Status measures
+		lineageTag: f57338c5-857e-42f9-ac14-5f7542f890df
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Late Orders' =
+			
+			CALCULATE([Total Orders], Orders[Delivery Status] = "Late")
+		formatString: 0
+		displayFolder: Status measures
+		lineageTag: eaecd8b4-ffac-43ba-b724-999323661493
+
+	measure 'Late Delivery %' =
+			
+			DIVIDE([Late Orders], [Total Orders])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Status measures
+		lineageTag: 160c0455-89e8-4f53-a28c-eea20c3ef2be
+
+	measure 'Repeat Customers' =
+			
+			CALCULATE( COUNTROWS(Customers), Customers[CustomerType] IN {"Premium", "Returning"})
+		formatString: 0
+		displayFolder: Customer measures
+		lineageTag: a8c03eed-9ea3-40a7-9099-4ba2ea0ad9af
+
+	measure 'Repeat Customer %' =
+			
+			DIVIDE([Repeat Customers], [Total Customers])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Customer measures
+		lineageTag: 1beececc-c67e-4bf8-81bf-fcdef8d2453d
+
+	measure 'Orders Per Customer' =
+			
+			DIVIDE([Total Orders], [Total Customers])
+		displayFolder: Customer measures
+		lineageTag: 23ebc645-c1eb-4837-81d6-24a0373ad038
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue per Restaurant' =
+			
+			DIVIDE([Total Revenue], [Total Restaurants])
+		displayFolder: Restaurant performance measures
+		lineageTag: ef863c5c-2084-44d2-9c7f-af8f1f053902
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Rating' = ```
+			AVERAGE(Restaurants[rate])
+			
+			```
+		displayFolder: Restaurant performance measures
+		lineageTag: 8cef110e-1e2e-4319-a85d-793af8de855e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Votes' = AVERAGE(Restaurants[Votes])
+		formatString: 0
+		displayFolder: Restaurant performance measures
+		lineageTag: 5c1baa52-020d-4938-a696-6ecf1991cb2e
+
+	measure 'Revenue YTD' = ```
+			TOTALYTD([Total Revenue], DateTable[Date])
+			
+			```
+		formatString: 0
+		displayFolder: Time intelligence measures
+		lineageTag: 81575dac-c355-4287-a5d5-a2ea5ef52750
+
+	measure 'Orders YTD' = TOTALYTD([Total Orders], DateTable[Date])
+		formatString: 0
+		displayFolder: Time intelligence measures
+		lineageTag: a424b95e-ed6c-47ed-a322-10548e3ce7b6
+
+	measure 'Revenue Previous Month' =
+			
+			CALCULATE([Total Revenue], DATEADD(DateTable[Date], -1, MONTH))
+		formatString: 0
+		displayFolder: Time intelligence measures
+		lineageTag: 1b06e330-6ea0-47fd-9ebb-52f35ee24937
+
+	measure 'Revenue Growth %' =
+			
+			DIVIDE([Total Revenue] - [Revenue Previous Month], [Revenue Previous Month])
+		displayFolder: Time intelligence measures
+		lineageTag: b05b5bfb-6153-48c7-828d-663dbfff663f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OrderID
+		dataType: int64
+		formatString: 0
+		lineageTag: b6581515-dac3-43f7-aa89-b0af1caf4308
+		summarizeBy: count
+		sourceColumn: OrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column RestaurantID
+		dataType: int64
+		formatString: 0
+		displayFolder: Status measures
+		lineageTag: 523fe913-4d13-4938-a081-4c60a6469142
+		summarizeBy: none
+		sourceColumn: RestaurantID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+		lineageTag: 01b7e6f8-7751-4f05-a4a3-35603055983f
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a3ad5eaf-8a2e-4491-8bb4-cf07e146f539
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column OrderValue
+		dataType: int64
+		formatString: 0
+		lineageTag: fa51883c-f8f6-4729-b0b1-c9832b533fb2
+		summarizeBy: sum
+		sourceColumn: OrderValue
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeliveryTimeMins
+		dataType: int64
+		formatString: 0
+		lineageTag: 542f5df7-b569-4882-b903-73f42026197c
+		summarizeBy: sum
+		sourceColumn: DeliveryTimeMins
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderStatus
+		dataType: string
+		lineageTag: 2f0fb0d0-5580-4004-af82-37a3d12246d5
+		summarizeBy: none
+		sourceColumn: OrderStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: deb33b7d-f413-4ef1-9e05-43a1f0cde3cf
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Delivery Status' =
+			
+			IF(Orders[DeliveryTimeMins] > 45, "Late", "On Time")
+		lineageTag: 5535089a-257d-49bf-80cb-147d07dc1037
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Month' = FORMAT(Orders[OrderDate], "MMM YYYY")
+		lineageTag: 3a6bfacf-6062-4feb-9a47-763bf7484bda
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Orders = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("E:\study\data analyst\datanalyst\project\5_Food Delivery App Data\dataset.xlsx"), null, true),
+				    Orders_Sheet = Source{[Item="Orders",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Orders_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"OrderID", Int64.Type}, {"RestaurantID", Int64.Type}, {"CustomerID", Int64.Type}, {"OrderDate", type date}, {"OrderValue", Int64.Type}, {"DeliveryTimeMins", Int64.Type}, {"OrderStatus", type text}, {"Quantity", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

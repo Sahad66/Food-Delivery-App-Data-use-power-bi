@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "c1dae74408040e347000",
+  "displayName": "Delivary  And Operations",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "pageBinding": {
+    "name": "b380cc2e95a38e8992e4",
+    "type": "Default",
+    "parameters": []
+  }
+}

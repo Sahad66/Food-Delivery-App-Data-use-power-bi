@@ -1,0 +1,79 @@
+table DateTable
+	lineageTag: f10cbe80-3b20-4c0a-a13f-3862ca41eadb
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e823c5ff-5eac-4918-a691-cfd1415016d4
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 2753b400-bd84-4e83-bb2c-65f98a6d8b0d
+			defaultHierarchy: LocalDateTable_4482ba3a-35ac-45c1-96fd-c757bb7f9f1e.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: c868e098-29e8-4563-bb48-b52d9be96508
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNo
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c9e95bb-a336-4008-893c-3013cbe32846
+		summarizeBy: sum
+		sourceColumn: MonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: a0e58525-7954-4b35-a98d-76c3c52acdc7
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: 9551c48f-bfb0-414b-ac86-1007c39d9aab
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: bc1f9d27-a8ce-48fd-9272-2189dde769ae
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DateTable = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("E:\study\data analyst\datanalyst\project\5_Food Delivery App Data\dataset.xlsx"), null, true),
+				    DateTable_Sheet = Source{[Item="DateTable",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(DateTable_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Year", Int64.Type}, {"MonthNo", Int64.Type}, {"MonthName", type text}, {"Quarter", type text}, {"Day", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

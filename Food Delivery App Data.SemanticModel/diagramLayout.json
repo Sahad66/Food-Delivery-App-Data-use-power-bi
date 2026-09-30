@@ -1,0 +1,86 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 113.38305001469394,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 615.38305001469394,
+            "y": 369.5
+          },
+          "nodeIndex": "Customers",
+          "nodeLineageTag": "2b6a4ea0-8ddf-4837-a9b4-7a7c32b03205",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 912.38305001469394,
+            "y": 64.5
+          },
+          "nodeIndex": "DateTable",
+          "nodeLineageTag": "f10cbe80-3b20-4c0a-a13f-3862ca41eadb",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 369.2015611931854,
+            "y": 64.5
+          },
+          "nodeIndex": "Orders",
+          "nodeLineageTag": "44b142de-d4f6-4020-a8ea-71c97abb34ba",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 145.5
+          },
+          "nodeIndex": "Restaurants",
+          "nodeLineageTag": "81f5c10e-a932-417d-82d1-59c7ce11a1f4",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1196.3830500146939,
+            "y": 174
+          },
+          "nodeIndex": "KPI",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

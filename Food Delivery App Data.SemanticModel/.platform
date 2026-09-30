@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Food Delivery App Data"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1fbfe501-0ad1-40bf-b4d0-680ef02d8598"
+  }
+}

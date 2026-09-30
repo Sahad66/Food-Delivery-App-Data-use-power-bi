@@ -1,0 +1,85 @@
+table Customers
+	lineageTag: 2b6a4ea0-8ddf-4837-a9b4-7a7c32b03205
+
+	column CustomerID
+		dataType: string
+		lineageTag: 381a1784-a54c-45a5-9f45-fe8fc788abec
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: 7573487c-47a1-4c5a-a037-83d202598fb7
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 92780258-e315-4561-a721-5760ac7550ff
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column SignupDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 328f470a-fd03-402d-a528-45d99a23cc74
+		summarizeBy: none
+		sourceColumn: SignupDate
+
+		variation Variation
+			isDefault
+			relationship: 8228ac7f-fec0-4089-8411-15b1d17a3897
+			defaultHierarchy: LocalDateTable_d0f5d57a-4729-400c-a125-edf1d7b36ddb.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CustomerType
+		dataType: string
+		lineageTag: 820ef4e1-a720-4ce6-8f91-ed9def8f5552
+		summarizeBy: none
+		sourceColumn: CustomerType
+
+		annotation SummarizationSetBy = Automatic
+
+	column FilterCity = ```
+			
+			VAR val = 'Customers'[City]
+			VAR wordCount = LEN(val) - LEN(SUBSTITUTE(val, " ", "")) + 1
+			RETURN
+			IF(
+			    ISBLANK(val) || wordCount > 4 || LEN(val) > 50,
+			    BLANK(),
+			    val
+			)
+			
+			```
+		lineageTag: 955651de-5bd7-4636-aabe-24387b516440
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customers = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("E:\study\data analyst\datanalyst\project\5_Food Delivery App Data\dataset.xlsx"), null, true),
+				    Customers_Sheet = Source{[Item="Customers",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Customers_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CustomerID", Int64.Type}, {"CustomerName", type text}, {"City", type text}, {"SignupDate", type date}, {"CustomerType", type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(Table.TransformColumnTypes(#"Changed Type", {{"CustomerID", type text}}, "en-US"),{{"CustomerID", Text.Trim, type text}}),
+				    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"CustomerID", Text.Clean, type text}})
+				in
+				    #"Cleaned Text"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

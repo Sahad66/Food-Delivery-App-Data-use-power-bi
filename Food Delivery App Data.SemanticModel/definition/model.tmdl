@@ -1,0 +1,25 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Customers","DateTable","Orders","Restaurants"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Customers
+ref table DateTable
+ref table Orders
+ref table Restaurants
+ref table DateTableTemplate_8798cb8d-fd56-4d70-90f1-a5847866c9c3
+ref table LocalDateTable_d0f5d57a-4729-400c-a125-edf1d7b36ddb
+ref table LocalDateTable_4482ba3a-35ac-45c1-96fd-c757bb7f9f1e
+ref table KPI
+
+ref cultureInfo en-US
+

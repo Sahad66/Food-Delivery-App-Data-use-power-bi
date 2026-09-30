@@ -1,0 +1,202 @@
+table Restaurants
+	lineageTag: 81f5c10e-a932-417d-82d1-59c7ce11a1f4
+
+	column RestaurantID
+		dataType: string
+		lineageTag: 22efb2d1-5663-4cb8-82b1-bc8de9ab2b7f
+		summarizeBy: none
+		sourceColumn: RestaurantID
+
+		annotation SummarizationSetBy = Automatic
+
+	column address
+		dataType: string
+		lineageTag: 27b35e67-b198-4c6d-81bc-5ab2cbd91380
+		summarizeBy: none
+		sourceColumn: address
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: b9e251c0-68ab-4846-9080-b4a414302000
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column online_order
+		dataType: string
+		lineageTag: d93843d0-47ea-40a8-94b0-a7c922ae0017
+		summarizeBy: none
+		sourceColumn: online_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column book_table
+		dataType: string
+		lineageTag: 1978e148-31da-4861-81f4-1190577af943
+		summarizeBy: none
+		sourceColumn: book_table
+
+		annotation SummarizationSetBy = Automatic
+
+	column rate
+		dataType: double
+		lineageTag: 24c7e418-ab29-4a58-b29a-ef94a8477193
+		summarizeBy: none
+		sourceColumn: rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column votes
+		dataType: double
+		formatString: 0
+		lineageTag: 321b2896-6095-4532-a1da-d86602c78d42
+		summarizeBy: none
+		sourceColumn: votes
+
+		annotation SummarizationSetBy = Automatic
+
+	column location
+		dataType: string
+		lineageTag: b75ab857-c548-4dde-aff7-210a5b313d49
+		summarizeBy: none
+		sourceColumn: location
+
+		annotation SummarizationSetBy = Automatic
+
+	column rest_type
+		dataType: string
+		lineageTag: 0ea208ba-d0fc-44e6-a743-56b3a7a9ba85
+		summarizeBy: none
+		sourceColumn: rest_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column dish_liked
+		dataType: string
+		lineageTag: 3d2f808f-be3b-41e2-a719-9c6a77854c72
+		summarizeBy: none
+		sourceColumn: dish_liked
+
+		annotation SummarizationSetBy = Automatic
+
+	column cuisines
+		dataType: string
+		lineageTag: eb9c850d-5abc-45f4-96eb-89429eba5ba8
+		summarizeBy: none
+		sourceColumn: cuisines
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostForTwo
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b274d8a-08fe-45cb-b814-8a4ded99ec1a
+		summarizeBy: none
+		sourceColumn: CostForTwo
+
+		annotation SummarizationSetBy = Automatic
+
+	column ServiceType
+		dataType: string
+		lineageTag: f7a61864-c19f-41ba-85d9-d413bd22b445
+		summarizeBy: none
+		sourceColumn: ServiceType
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityGroup
+		dataType: string
+		lineageTag: bebf110d-0353-41d6-b9db-f2a9192bd685
+		summarizeBy: none
+		sourceColumn: CityGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Online_Order 2'
+		dataType: string
+		lineageTag: db1fb419-3c43-4590-a540-1b03e2ce7b7b
+		summarizeBy: none
+		sourceColumn: Online_Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Book_Table 2'
+		dataType: string
+		lineageTag: e8f80728-d1ce-4be5-89c7-747749d63a73
+		summarizeBy: none
+		sourceColumn: Book_Table
+
+		annotation SummarizationSetBy = Automatic
+
+	column PrimaryCuisine
+		dataType: string
+		lineageTag: 00336c8f-329e-4d30-8b3f-a9e62e471783
+		summarizeBy: none
+		sourceColumn: PrimaryCuisine
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost Bucket' =
+			
+			SWITCH(
+			    TRUE(),
+			    Restaurants[CostForTwo] < 500, "Budget",
+			    Restaurants[CostForTwo] < 1000, "Mid Range",
+			    "Premium"
+			)
+		lineageTag: aeeef620-c209-489b-b584-3ace0f20b4bf
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rating Bucket' =
+			
+			SWITCH(
+			    TRUE(),
+			    Restaurants[rate] = BLANK(),"Blank",
+			    Restaurants[rate] >= 4.5, "Excellent",
+			    Restaurants[rate] >= 4.0, "Good",
+			    Restaurants[rate] >= 3.0, "Average",
+			    "Low"
+			)
+		lineageTag: 243550cd-b49f-462e-912a-7b3f37c63293
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Restaurants = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("E:\study\data analyst\datanalyst\project\5_Food Delivery App Data\dataset.xlsx"), null, true),
+				    Restaurants_Sheet = Source{[Item="Restaurants",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Restaurants_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"RestaurantID", Int64.Type}, {"address", type text}, {"name", type any}, {"online_order", type text}, {"book_table", type text}, {"rate", type text}, {"votes", type any}, {"location", type text}, {"rest_type", type text}, {"dish_liked", type text}, {"cuisines", type text}, {"approx_cost(for two people)", type any}, {"listed_in(type)", type text}, {"listed_in(city)", type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(Table.TransformColumnTypes(#"Changed Type", {{"RestaurantID", type text}}, "en-US"),{{"RestaurantID", Text.Trim, type text}}),
+				    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"RestaurantID", Text.Clean, type text}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Cleaned Text", "Online_Order", each if [online_order] = "Yes" then "yes" else if [online_order] = "No" then "no" else null),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column", "Book_Table", each if [book_table] = "Yes" then "Yes" else if [book_table] = "No" then "No" else null),
+				    #"Extracted Text Before Delimiter" = Table.TransformColumns(#"Added Conditional Column1", {{"rate", each Text.BeforeDelimiter(_, "/"), type text}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Extracted Text Before Delimiter",{{"rate", type number}}),
+				    #"Replaced Errors" = Table.ReplaceErrorValues(#"Changed Type1", {{"rate", null}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Replaced Errors",{{"listed_in(city)", "CityGroup"}, {"listed_in(type)", "ServiceType"}, {"approx_cost(for two people)", "CostForTwo"}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Renamed Columns",{{"CostForTwo", Int64.Type}}),
+				    #"Replaced Errors1" = Table.ReplaceErrorValues(#"Changed Type2", {{"CostForTwo", null}}),
+				    #"Inserted Text Before Delimiter" = Table.AddColumn(#"Replaced Errors1", "Text Before Delimiter", each Text.BeforeDelimiter([cuisines], ","), type text),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Inserted Text Before Delimiter",{{"Text Before Delimiter", "PrimaryCuisine"}}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Renamed Columns1",{{"votes", Int64.Type}}),
+				    #"Replaced Errors2" = Table.ReplaceErrorValues(#"Changed Type3", {{"votes", null}}),
+				    #"Replaced Errors3" = Table.ReplaceErrorValues(#"Replaced Errors2", {{"votes", 0}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Replaced Errors3",null,0,Replacer.ReplaceValue,{"votes"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
