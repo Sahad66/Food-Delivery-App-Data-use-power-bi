@@ -175,12 +175,11 @@ Orders per Customer = DIVIDE([Total Orders], [Total Customers])
 
 ## 📥 Dataset
 
-- Source: _[add dataset link / description here]_
-- Period covered: _[add date range]_
-
+- Source: [dataset.xlsx](https://github.com/user-attachments/files/32843059/dataset.xlsx)
+- **Period covered:** January 2023 – December 2025 (অথবা আপনার পাওয়া আসল তারিখ যেমন: `01 Jan 2024 – 31 Dec 2024`)
 ---
 
 ## 👤 Author
 
-**[Your Name]**
-[LinkedIn](https://linkedin.com/in/your-profile) · [GitHub](https://github.com/your-username)
+**[MD Shahaduzzaman]**
+[LinkedIn](https://www.linkedin.com/in/md-shahaduzzaman/) 
