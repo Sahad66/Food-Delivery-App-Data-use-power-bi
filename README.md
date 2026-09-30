@@ -25,8 +25,8 @@ An end-to-end **Power BI** project that analyzes 200K food delivery orders acros
 ## 📊 Dashboard Preview
 
 ### 1. Executive Overview
-![Executive Overview](images/executive_o<img width="1319" height="751" alt="Executive overview" src="https://github.com/user-attachments/assets/c0e7ab2f-79c7-4150-810a-4390604bf962" />
-verview.png)
+<img width="1319" height="751" alt="Executive overview" src="https://github.com/user-attachments/assets/3ab15ea5-93bb-43e7-b9a3-f9814561f96f" />
+
 
 ### 2. Customer Analysis
 ![Customer Analysis](images/customer_analysis.png)
