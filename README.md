@@ -29,19 +29,23 @@ An end-to-end **Power BI** project that analyzes 200K food delivery orders acros
 
 
 ### 2. Customer Analysis
-![Customer Analysis](images/customer_analysis.png)
+<img width="1321" height="742" alt="cutomer analysis" src="https://github.com/user-attachments/assets/14c4cc73-c077-4e1b-b96d-d8e0a9ad0065" />
+
 
 ### 3. Delivery Performance
-![Delivery Performance](images/delivery.png)
+<img width="1306" height="729" alt="delivary" src="https://github.com/user-attachments/assets/5bfaee46-4228-4ca0-b307-2e58363fc54a" />
+
 
 ### 4. Restaurant Performance
-![Restaurant Performance](images/restaurant_performance.png)
+<img width="1304" height="743" alt="restaurant performance" src="https://github.com/user-attachments/assets/9b507476-6a1d-4cf9-9699-97f319a493a8" />
+
 
 ### 5. Advanced Insights
-![Advanced Insights](images/advanced_insights.png)
+<img width="1307" height="730" alt="Restaurnt details" src="https://github.com/user-attachments/assets/45172d7a-3b3c-4832-9168-3683a8bc128d" />
+
 
 ### 6. Restaurant Details (Drill-through)
-![Restaurant Details](images/restaurant_details.png)
+<img width="1319" height="751" alt="Executive overview" src="https://github.com/user-attachments/assets/3525adad-748e-4894-9af0-dda319837948" />
 
 ---
 
